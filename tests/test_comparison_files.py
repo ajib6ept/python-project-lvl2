@@ -9,9 +9,10 @@ from gendiff.cli import generate_diff
 from gendiff import cli
 
 from gendiff.formatter.flat import flat_stylish
+from gendiff.formatter.jsonf import json_stylish
 
 import sys
-
+import json
 
 PATH_FLAT_JSON_FILE1 = "./tests/fixtures/flat_file1.json"
 PATH_FLAT_JSON_FILE2 = "./tests/fixtures/flat_file2.json"
@@ -52,17 +53,31 @@ def test_comparion_nested_yaml_files():
     )
 
 
-def test_comparion_flat_json_files():
+def test_comparion_flat_json_files_stylish_flat():
     assert (
         generate_diff(PATH_FLAT_JSON_FILE1, PATH_FLAT_JSON_FILE2, flat_stylish)
         == flat_files_result
     )
 
 
-def test_comparion_nested_json_files():
+def test_comparion_nested_json_files_stylish_flat():
     assert (
         generate_diff(
             PATH_NESTED_JSON_FILE1, PATH_NESTED_JSON_FILE2, flat_stylish
         )
         == nested_files_result
+    )
+
+
+def test_comparion_flat_json_files_stylish_json():
+    json.loads(
+        generate_diff(PATH_FLAT_JSON_FILE1, PATH_FLAT_JSON_FILE2, json_stylish)
+    )
+
+
+def test_comparion_flat_json_files_stylish_json():
+    json.loads(
+        generate_diff(
+            PATH_NESTED_JSON_FILE1, PATH_NESTED_JSON_FILE2, json_stylish
+        )
     )
