@@ -1,7 +1,7 @@
 import argparse
 
 from gendiff.loader import load_file
-from gendiff.formatter import stylish
+from gendiff.formatter.default import stylish
 
 
 def generate_diff(file_path1, file_path2, formatter=stylish):
@@ -10,7 +10,7 @@ def generate_diff(file_path1, file_path2, formatter=stylish):
     file2 = load_file(file_path2)
 
     files_difference = diff(file1, file2)
-    result = stylish(files_difference)
+    result = formatter(files_difference)
 
     return result
 
