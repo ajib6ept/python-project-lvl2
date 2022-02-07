@@ -5,15 +5,17 @@ def _get_value(item):
         return "true"
     if item is None:
         return "null"
-    elif isinstance(item, dict):
+    if isinstance(item, dict):
         return "[complex value]"
+    if isinstance(item, int):
+        return item
     return f"'{item}'"
 
 
-def flat_stylish(files_difference, start_symbol="\n", start_key=""):
+def flat_stylish(files_difference, start_key=""):
     keys = list(files_difference.keys())
     keys.sort()
-    result = start_symbol
+    result = ""
     for key in keys:
         value = files_difference[key].get("value")
         value1 = _get_value(files_difference[key].get("value1"))
@@ -34,7 +36,6 @@ def flat_stylish(files_difference, start_symbol="\n", start_key=""):
             )
             result = f"{result}{changed_line}"
         elif files_difference[key]["status"] == "nested":
-            result = (
-                f"{result}{flat_stylish(value,start_symbol='',start_key=key1)}"
-            )
+            result = f"{result}{flat_stylish(value,start_key=key1)}"
+    result = result.rstrip() if not start_key else result
     return result
