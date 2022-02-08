@@ -6,7 +6,7 @@ from gendiff.gendiff import generate_diff
 def arg_parse():
     parser = argparse.ArgumentParser(description="Generate diff")
     parser.add_argument(
-        "--f",
+        "-f",
         "--format",
         metavar="FORMAT",
         default="stylish",
