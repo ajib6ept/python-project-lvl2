@@ -67,7 +67,7 @@ def test_comparion_flat_json_files_stylish_json():
     )
 
 
-def test_comparion_flat_json_files_stylish_json():
+def test_comparion_nested_json_files_stylish_json():
     json.loads(
         generate_diff(PATH_NESTED_JSON_FILE1, PATH_NESTED_JSON_FILE2, "json")
     )
