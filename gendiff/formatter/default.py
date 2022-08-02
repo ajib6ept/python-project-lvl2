@@ -50,22 +50,22 @@ def stylish(files_difference, indent=4, depth=1):  # noqa: C901
         value = files_difference[key].get("value")
         value1 = _get_value(files_difference[key].get("value1"), indent)
         value2 = _get_value(files_difference[key].get("value2"), indent)
-        if files_difference[key]["status"] == "equal":
+        if files_difference[key]["type"] == "equal":
             indent1 = make_indent(depth)
             result = result + f"{indent1}{key}: {value1}\n"
-        elif files_difference[key]["status"] == "nested":
+        elif files_difference[key]["type"] == "nested":
             indent1 = make_indent(depth)
             nested_result = (
                 f"{key}: {stylish(value, indent=indent+4, depth=depth+1)}\n"
             )
             result = result + indent1 + nested_result
-        elif files_difference[key]["status"] == "removed":
+        elif files_difference[key]["type"] == "removed":
             indent1 = make_indent(depth, symbol="-")
             result = result + f"{indent1}{key}: {value1}\n"
-        elif files_difference[key]["status"] == "added":
+        elif files_difference[key]["type"] == "added":
             indent1 = make_indent(depth, symbol="+")
             result = result + f"{indent1}{key}: {value2}\n"
-        elif files_difference[key]["status"] == "changed":
+        elif files_difference[key]["type"] == "changed":
             indent1 = make_indent(depth, symbol="-")
             result = result + f"{indent1}{key}: {value1}\n"
             indent1 = make_indent(depth, symbol="+")

@@ -1,11 +1,12 @@
-import json
-import yaml
+def read_data(data_source):
+    with open(data_source, "r") as f:
+        output = f.read()
+    return output
 
 
-def load_file(file_name):
-
-    if file_name.endswith((".yml", ".yaml")):
-        file_data = yaml.load(open(file_name), Loader=yaml.Loader)
+def get_data_type(data_source):
+    if data_source.endswith((".yml", ".yaml")):
+        data_type = "yaml"
     else:
-        file_data = json.load(open(file_name))
-    return file_data
+        data_type = "json"
+    return data_type

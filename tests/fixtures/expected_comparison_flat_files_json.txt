@@ -1,26 +1,26 @@
 {
     "follow": {
-        "status": "removed",
+        "type": "removed",
         "value1": false,
         "value2": null
     },
     "host": {
-        "status": "equal",
+        "type": "equal",
         "value1": "hexlet.io",
         "value2": "hexlet.io"
     },
     "proxy": {
-        "status": "removed",
+        "type": "removed",
         "value1": "123.234.53.22",
         "value2": null
     },
     "timeout": {
-        "status": "changed",
+        "type": "changed",
         "value1": 50,
         "value2": 20
     },
     "verbose": {
-        "status": "added",
+        "type": "added",
         "value1": null,
         "value2": true
     }

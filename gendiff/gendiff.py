@@ -1,4 +1,5 @@
-from gendiff.loader import load_file
+from gendiff.loader import read_data, get_data_type
+from gendiff.parser import parsing_data
 from gendiff.formatter.default import stylish
 from gendiff.formatter.flat import flat_stylish
 from gendiff.formatter.jsonf import json_stylish
@@ -10,41 +11,47 @@ FORMATTERS = {
 }
 
 
-def generate_diff(file_path1, file_path2, format_name="stylish"):
+def generate_diff(data_path1, data_path2, format_name="stylish"):
 
-    file1 = load_file(file_path1)
-    file2 = load_file(file_path2)
+    raw_data1 = read_data(data_path1)
+    raw_data2 = read_data(data_path2)
 
-    files_difference = diff(file1, file2)
+    config1_type = get_data_type(data_path1)
+    config2_type = get_data_type(data_path2)
 
+    config1 = parsing_data(raw_data1, config1_type)
+    config2 = parsing_data(raw_data2, config2_type)
+
+    files_difference = diff(config1, config2)
     result = FORMATTERS[format_name](files_difference)
 
     return result
 
 
-def diff(file1, file2):
+def diff(config1, config2):
 
     diff_dict = {}
-    keys = list(set(list(file1.keys()) + list(file2.keys())))
+    keys = config1.keys() | config2.keys()
     for key in keys:
-        file1_value = file1.get(key)
-        file2_value = file2.get(key)
+        config1_value = config1.get(key)
+        config2_value = config2.get(key)
         diff_dict[key] = {
-            "value1": file1_value,
-            "value2": file2_value,
+            "value1": config1_value,
+            "value2": config2_value,
         }
-        if file1_value == file2_value:
-            diff_dict[key]["status"] = "equal"
+        if config1_value == config2_value:
+            diff_dict[key]["type"] = "equal"
+        elif isinstance(config1_value, dict) and isinstance(
+            config2_value, dict
+        ):
+            diff_dict[key] = {
+                "type": "nested",
+                "value": diff(config1_value, config2_value),
+            }
+        elif key in config1.keys() and key not in config2.keys():
+            diff_dict[key]["type"] = "removed"
+        elif key in config2.keys() and key not in config1.keys():
+            diff_dict[key]["type"] = "added"
         else:
-            if isinstance(file1_value, dict) and isinstance(file2_value, dict):
-                diff_dict[key] = {
-                    "status": "nested",
-                    "value": diff(file1_value, file2_value),
-                }
-            elif key in file1.keys() and key not in file2.keys():
-                diff_dict[key]["status"] = "removed"
-            elif key in file2.keys() and key not in file1.keys():
-                diff_dict[key]["status"] = "added"
-            else:
-                diff_dict[key]["status"] = "changed"
+            diff_dict[key]["type"] = "changed"
     return diff_dict
