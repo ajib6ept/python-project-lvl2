@@ -2,7 +2,7 @@ import json
 import os
 
 import pytest
-from gendiff.cli import generate_diff
+from gendiff.gendiff import generate_diff
 
 TEST_DATA_DIR = os.path.join(os.path.dirname(__file__), "fixtures")
 

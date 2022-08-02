@@ -1,7 +1,5 @@
 import argparse
 
-from gendiff.gendiff import generate_diff
-
 
 def arg_parse():
     parser = argparse.ArgumentParser(description="Generate diff")
@@ -11,12 +9,9 @@ def arg_parse():
         metavar="FORMAT",
         default="stylish",
         help="set format of output",
+        choices=["stylish", "plain", "json"],
     )
     parser.add_argument("first_file")
     parser.add_argument("second_file")
     args = parser.parse_args()
-    print(
-        generate_diff(
-            args.first_file, args.second_file, format_name=args.format
-        )
-    )
+    return args
