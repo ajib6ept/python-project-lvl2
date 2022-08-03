@@ -30,8 +30,8 @@ Shows the difference between them using different output formats ('stylish', 'pl
 ***
 ##### Comparing simple files 
 
-[![asciicast](https://asciinema.org/a/xIe10VqUKjhyJnw8gw5KUJP29.svg)](https://asciinema.org/a/xIe10VqUKjhyJnw8gw5KUJP29)
+[![asciicast](https://asciinema.org/a/oeIMWnK89RqTPPo5Sjsp6GBcO.svg)](https://asciinema.org/a/oeIMWnK89RqTPPo5Sjsp6GBcO)
 
 ##### Comparing nested files
 
-[![asciicast](https://asciinema.org/a/Gtc8HAIynHz2uK8fTiEkvgenu.svg)](https://asciinema.org/a/Gtc8HAIynHz2uK8fTiEkvgenu)
+[![asciicast](https://asciinema.org/a/obiua47jA89D30CYYl4bSo8J9.svg)](https://asciinema.org/a/obiua47jA89D30CYYl4bSo8J9)
