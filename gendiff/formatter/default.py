@@ -36,39 +36,32 @@ def make_indent(depth, symbol=""):
     return indent
 
 
-def make_result(depth, symbol, key, value):
-    indent = make_indent(depth, symbol)
-    return f"{indent}{key}: {value}\n"
+def stylish(configs_difference, depth=1):  # noqa: C901
 
-
-def stylish(files_difference, indent=4, depth=1):  # noqa: C901
-
-    keys = list(files_difference.keys())
+    keys = list(configs_difference.keys())
     keys.sort()
     result = "{\n"
     for key in keys:
-        value = files_difference[key].get("value")
-        value1 = _get_value(files_difference[key].get("value1"), indent)
-        value2 = _get_value(files_difference[key].get("value2"), indent)
-        if files_difference[key]["type"] == "equal":
-            indent1 = make_indent(depth)
-            result = result + f"{indent1}{key}: {value1}\n"
-        elif files_difference[key]["type"] == "nested":
-            indent1 = make_indent(depth)
-            nested_result = (
-                f"{key}: {stylish(value, indent=indent+4, depth=depth+1)}\n"
-            )
-            result = result + indent1 + nested_result
-        elif files_difference[key]["type"] == "removed":
-            indent1 = make_indent(depth, symbol="-")
-            result = result + f"{indent1}{key}: {value1}\n"
-        elif files_difference[key]["type"] == "added":
-            indent1 = make_indent(depth, symbol="+")
-            result = result + f"{indent1}{key}: {value2}\n"
-        elif files_difference[key]["type"] == "changed":
-            indent1 = make_indent(depth, symbol="-")
-            result = result + f"{indent1}{key}: {value1}\n"
-            indent1 = make_indent(depth, symbol="+")
-            result = result + f"{indent1}{key}: {value2}\n"
-    result = result + "    " * (depth - 1) + "}"
+        value = configs_difference[key].get("value")
+        value1 = _get_value(configs_difference[key].get("value1"), depth * 4)
+        value2 = _get_value(configs_difference[key].get("value2"), depth * 4)
+        if configs_difference[key]["type"] == "equal":
+            indent = make_indent(depth)
+            result = "".join([result, f"{indent}{key}: {value1}\n"])
+        elif configs_difference[key]["type"] == "nested":
+            indent = make_indent(depth)
+            nested_result = f"{key}: {stylish(value, depth=depth+1)}\n"
+            result = "".join([result, indent, nested_result])
+        elif configs_difference[key]["type"] == "removed":
+            indent = make_indent(depth, symbol="-")
+            result = "".join([result, f"{indent}{key}: {value1}\n"])
+        elif configs_difference[key]["type"] == "added":
+            indent = make_indent(depth, symbol="+")
+            result = "".join([result, f"{indent}{key}: {value2}\n"])
+        elif configs_difference[key]["type"] == "changed":
+            indent = make_indent(depth, symbol="-")
+            result = "".join([result, f"{indent}{key}: {value1}\n"])
+            indent = make_indent(depth, symbol="+")
+            result = "".join([result, f"{indent}{key}: {value2}\n"])
+    result = "".join([result, "    " * (depth - 1), "}"])
     return result

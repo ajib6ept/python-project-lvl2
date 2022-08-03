@@ -1,14 +1,6 @@
 from gendiff.loader import read_data, get_data_type
 from gendiff.parser import parsing_data
-from gendiff.formatter.default import stylish
-from gendiff.formatter.flat import flat_stylish
-from gendiff.formatter.jsonf import json_stylish
-
-FORMATTERS = {
-    "stylish": stylish,
-    "plain": flat_stylish,
-    "json": json_stylish,
-}
+from gendiff.formatter.tools import get_formatter
 
 
 def generate_diff(data_path1, data_path2, format_name="stylish"):
@@ -23,7 +15,8 @@ def generate_diff(data_path1, data_path2, format_name="stylish"):
     config2 = parsing_data(raw_data2, config2_type)
 
     files_difference = diff(config1, config2)
-    result = FORMATTERS[format_name](files_difference)
+    formatter = get_formatter(format_name)
+    result = formatter(files_difference)
 
     return result
 
