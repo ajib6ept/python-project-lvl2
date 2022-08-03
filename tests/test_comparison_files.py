@@ -91,6 +91,4 @@ def test_comparison_files_with_format(parametrs):
 
 @pytest.mark.parametrize("parametrs", CHECK_VALID_JSON_PARAMETRS)
 def test_valid_json(parametrs):
-    json.loads(
-        generate_diff(PATH_FLAT_JSON_FILE1, PATH_FLAT_JSON_FILE2, "json")
-    )
+    json.loads(generate_diff(*parametrs))
