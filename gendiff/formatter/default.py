@@ -36,7 +36,12 @@ def make_indent(depth, symbol=""):
     return indent
 
 
-def stylish(configs_difference, depth=1):  # noqa: C901
+def stylish(configs_difference):
+    result = create_diff_stylish(configs_difference, depth=1)
+    return result
+
+
+def create_diff_stylish(configs_difference, depth=1):  # noqa: C901
 
     keys = list(configs_difference.keys())
     keys.sort()
@@ -50,7 +55,9 @@ def stylish(configs_difference, depth=1):  # noqa: C901
             result = "".join([result, f"{indent}{key}: {value1}\n"])
         elif configs_difference[key]["type"] == "nested":
             indent = make_indent(depth)
-            nested_result = f"{key}: {stylish(value, depth=depth+1)}\n"
+            nested_result = (
+                f"{key}: {create_diff_stylish(value, depth=depth+1)}\n"
+            )
             result = "".join([result, indent, nested_result])
         elif configs_difference[key]["type"] == "removed":
             indent = make_indent(depth, symbol="-")

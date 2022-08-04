@@ -12,7 +12,12 @@ def _get_value(item):
     return f"'{item}'"
 
 
-def plain_stylish(configs_difference, path=""):
+def plain_stylish(configs_difference):
+    result = create_diff_plain(configs_difference, path="")
+    return result
+
+
+def create_diff_plain(configs_difference, path=""):
     keys = list(configs_difference.keys())
     keys.sort()
     result = ""
@@ -34,8 +39,8 @@ def plain_stylish(configs_difference, path=""):
             changed_line = (
                 f"Property '{key1}' was updated. From {value1} to {value2}\n"
             )
-            result = f"{result}{changed_line}"
+            result = "".join([result, changed_line])
         elif configs_difference[key]["type"] == "nested":
-            result = f"{result}{plain_stylish(value, path=key1)}"
+            result = f"{result}{create_diff_plain(value, path=key1)}"
     result = result.rstrip() if not path else result
     return result
