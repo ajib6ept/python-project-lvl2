@@ -1,10 +1,9 @@
-from gendiff.loader import read_data, get_data_type
-from gendiff.parser import parsing_data
 from gendiff.formatter.tools import get_formatter
+from gendiff.loader import get_data_type, read_data
+from gendiff.parser import parsing_data
 
 
 def generate_diff(data_path1, data_path2, format_name="stylish"):
-
     raw_data1 = read_data(data_path1)
     raw_data2 = read_data(data_path2)
 
@@ -22,7 +21,6 @@ def generate_diff(data_path1, data_path2, format_name="stylish"):
 
 
 def diff(config1, config2):
-
     diff_dict = {}
     keys = config1.keys() | config2.keys()
     for key in keys:

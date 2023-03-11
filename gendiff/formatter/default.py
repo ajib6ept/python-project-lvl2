@@ -42,7 +42,6 @@ def stylish(configs_difference):
 
 
 def create_diff_stylish(configs_difference, depth=1):  # noqa: C901
-
     keys = list(configs_difference.keys())
     keys.sort()
     result = "{\n"
